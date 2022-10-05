@@ -1,6 +1,6 @@
-package com.hackathon.bespring.global.webpush.repository;
+package com.hackathon.bespring.domain.webpush.domain.repository;
 
-import com.hackathon.bespring.global.webpush.WebPush;
+import com.hackathon.bespring.domain.webpush.domain.WebPush;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Optional;

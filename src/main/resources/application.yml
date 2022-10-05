@@ -21,3 +21,8 @@ spring:
 jwt:
   secret-key: ${JWT_SECRET_KEY:tewafs}
   access-exp: ${JWT_EXP_ACCESS:7200}
+
+web-push:
+  key:
+    public: ${WEB_PUSH_PUBLIC_KEY}
+    private: ${WEB_PUSH_PRIVATE_KEY}

@@ -1,4 +1,4 @@
-package com.hackathon.bespring.global.webpush;
+package com.hackathon.bespring.domain.webpush.domain;
 
 import com.hackathon.bespring.domain.user.domain.User;
 import com.hackathon.bespring.global.entity.BaseTimeEntity;
@@ -28,7 +28,7 @@ public class WebPush extends BaseTimeEntity {
     private Long userId;
 
     @OneToOne
-    @JoinColumn(name = "userId", insertable = false, updatable = false)
+    @JoinColumn(name = "userId", nullable = false, insertable = false, updatable = false)
     private User user;
 
     @Builder
