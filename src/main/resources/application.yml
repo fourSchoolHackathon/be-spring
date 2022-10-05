@@ -1,9 +1,9 @@
 spring:
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: ${JDBC_URL}
-    username: ${DB_USERNAME}
-    password: ${DB_PASSWORD}
+    url: ${DB_URL:jdbc:mysql://localhost:3306/test?characterEncoding=UTF-8&serverTimezone=Asia/Seoul}
+    username: ${DB_USERNAME:root}
+    password: ${DB_PASSWORD:root}
 
   jpa:
     database: mysql
@@ -19,5 +19,5 @@ spring:
     timeout-per-shutdown-phase: 20s
 
   jwt:
-    secret-key: ${JWT_SECRET_KEY}
-    access-exp: ${JWT_EXP_ACCESS}
+    secret-key: ${JWT_SECRET_KEY:tewafs}
+    access-exp: ${JWT_EXP_ACCESS:7200}

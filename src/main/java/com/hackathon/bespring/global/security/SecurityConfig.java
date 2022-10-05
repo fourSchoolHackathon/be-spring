@@ -5,6 +5,7 @@ import com.hackathon.bespring.global.security.jwt.JwtTokenProvider;
 import com.hackathon.bespring.global.security.jwt.JwtTokenResolver;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
@@ -31,6 +32,9 @@ public class SecurityConfig {
 
         http
                 .authorizeRequests()
+
+                .antMatchers(HttpMethod.POST, "user/signup").permitAll()
+                .antMatchers(HttpMethod.POST, "user/signin").permitAll()
 
                 .anyRequest().authenticated()
 

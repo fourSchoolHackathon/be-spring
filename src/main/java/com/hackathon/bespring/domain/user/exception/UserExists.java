@@ -1,4 +1,4 @@
-package com.hackathon.bespring.domain.user.presentation.exception;
+package com.hackathon.bespring.domain.user.exception;
 
 import com.hackathon.bespring.global.error.CustomException;
 import com.hackathon.bespring.global.error.ErrorCode;
