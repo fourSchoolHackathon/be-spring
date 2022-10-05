@@ -1,4 +1,4 @@
-package com.hackathon.bespring.global.webpush;
+package com.hackathon.bespring.global.util;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.hackathon.bespring.domain.webpush.domain.WebPush;
@@ -11,14 +11,15 @@ import nl.martijndwars.webpush.PushService;
 import nl.martijndwars.webpush.Subscription;
 import org.bouncycastle.jce.provider.BouncyCastleProvider;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.PostConstruct;
 import java.security.GeneralSecurityException;
 import java.security.Security;
 
-@Service
 @RequiredArgsConstructor
+@Component
 public class WebPushUtil {
 
     private final ObjectMapper objectMapper;
