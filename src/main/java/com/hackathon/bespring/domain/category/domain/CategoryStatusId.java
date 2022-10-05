@@ -1,6 +1,5 @@
 package com.hackathon.bespring.domain.category.domain;
 
-import com.hackathon.bespring.domain.user.domain.User;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -17,7 +16,7 @@ import java.io.Serializable;
 @EqualsAndHashCode
 public class CategoryStatusId implements Serializable {
 
-    private Category category;
+    private Long category;
 
-    private User user;
+    private Long user;
 }
