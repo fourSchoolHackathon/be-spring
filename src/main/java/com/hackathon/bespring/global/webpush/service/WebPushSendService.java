@@ -2,8 +2,6 @@ package com.hackathon.bespring.global.webpush.service;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.hackathon.bespring.domain.webpush.domain.WebPush;
-import com.hackathon.bespring.domain.webpush.domain.repository.WebPushRepository;
-import com.hackathon.bespring.domain.webpush.exception.PushSubscriptionNotFound;
 import com.hackathon.bespring.global.error.CustomException;
 import com.hackathon.bespring.global.error.ErrorCode;
 import com.hackathon.bespring.global.webpush.presentation.dto.request.WebPushSendRequest;
@@ -23,10 +21,8 @@ import java.security.Security;
 @RequiredArgsConstructor
 public class WebPushSendService {
 
-    private PushService pushService;
     private final ObjectMapper objectMapper;
-    private final WebPushRepository webpushRepository;
-
+    private PushService pushService;
     @Value("${web-push.key.public}")
     private String publicKey;
     @Value("${web-push.key.private}")

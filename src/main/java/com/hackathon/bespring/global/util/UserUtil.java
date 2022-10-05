@@ -1,4 +1,4 @@
-package com.hackathon.bespring.global;
+package com.hackathon.bespring.global.util;
 
 import com.hackathon.bespring.domain.user.domain.User;
 import com.hackathon.bespring.domain.user.domain.repository.UserRepository;

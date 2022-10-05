@@ -1,6 +1,5 @@
 package com.hackathon.bespring.domain.user.service;
 
-import com.hackathon.bespring.domain.user.domain.Role;
 import com.hackathon.bespring.domain.user.domain.User;
 import com.hackathon.bespring.domain.user.domain.repository.UserRepository;
 import com.hackathon.bespring.domain.user.exception.InvalidPassword;

@@ -4,7 +4,7 @@ import com.hackathon.bespring.domain.webpush.domain.WebPush;
 import com.hackathon.bespring.domain.webpush.presentation.dto.request.WebPushSubscribeRequest;
 import com.hackathon.bespring.domain.webpush.exception.PushSubscriptionNotFound;
 import com.hackathon.bespring.domain.webpush.domain.repository.WebPushRepository;
-import com.hackathon.bespring.global.UserUtil;
+import com.hackathon.bespring.global.util.UserUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 

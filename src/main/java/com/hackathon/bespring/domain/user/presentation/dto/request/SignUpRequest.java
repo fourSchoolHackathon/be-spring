@@ -16,7 +16,7 @@ public class SignUpRequest {
     private String accountId;
 
     @NotBlank
-    @Size(min = 2, max = 10)
+    @Size(min = 2, max = 5)
     private String name;
 
     @NotBlank

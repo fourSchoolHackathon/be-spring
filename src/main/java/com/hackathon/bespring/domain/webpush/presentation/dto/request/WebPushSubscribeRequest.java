@@ -1,16 +1,21 @@
 package com.hackathon.bespring.domain.webpush.presentation.dto.request;
 
-import lombok.AllArgsConstructor;
 import lombok.Getter;
-import lombok.RequiredArgsConstructor;
+import lombok.NoArgsConstructor;
+
+import javax.validation.constraints.NotBlank;
 
 @Getter
-@RequiredArgsConstructor
-@AllArgsConstructor
+@NoArgsConstructor
 public class WebPushSubscribeRequest {
 
+    @NotBlank
     private String endpoint;
+
+    @NotBlank
     private String auth;
+
+    @NotBlank
     private String p256dh;
 
 }

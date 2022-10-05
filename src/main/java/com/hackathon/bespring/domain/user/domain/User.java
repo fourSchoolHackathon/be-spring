@@ -14,7 +14,9 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.validation.constraints.Digits;
 import javax.validation.constraints.NotNull;
+import java.math.BigDecimal;
 
 @Getter
 @Builder
@@ -33,7 +35,7 @@ public class User {
     private String accountId;
 
     @NotNull
-    @Column(columnDefinition = "VARCHAR(10)")
+    @Column(columnDefinition = "VARCHAR(5)")
     private String name;
 
     @NotNull
@@ -42,6 +44,19 @@ public class User {
 
     @NotNull
     @Enumerated(EnumType.STRING)
-    @Column(columnDefinition = "VARCHAR(5)")
-    private Role role;
+    @Column(columnDefinition = "CHAR(1)")
+    private Sex sex;
+
+    @NotNull
+    @Digits(integer = 2, fraction = 8)
+    private BigDecimal latitude;
+
+    @NotNull
+    @Digits(integer = 3, fraction = 8)
+    private BigDecimal longitude;
+
+    @NotNull
+    @Enumerated(EnumType.STRING)
+    @Column(columnDefinition = "VARCHAR(4)")
+    private Category category;
 }
