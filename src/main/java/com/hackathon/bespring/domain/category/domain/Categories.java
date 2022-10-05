@@ -1,6 +1,6 @@
-package com.hackathon.bespring.domain.user.domain;
+package com.hackathon.bespring.domain.category.domain;
 
-public enum Category {
+public enum Categories {
     이동보조,
     말벗,
     주변정리,
