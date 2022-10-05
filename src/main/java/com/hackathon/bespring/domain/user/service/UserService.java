@@ -8,11 +8,14 @@ import com.hackathon.bespring.domain.user.domain.User;
 import com.hackathon.bespring.domain.user.domain.repository.UserRepository;
 import com.hackathon.bespring.domain.user.exception.InvalidPassword;
 import com.hackathon.bespring.domain.user.exception.UserExists;
+import com.hackathon.bespring.domain.user.presentation.dto.request.GetUserRequest;
 import com.hackathon.bespring.domain.user.presentation.dto.request.SignInRequest;
 import com.hackathon.bespring.domain.user.presentation.dto.request.SignUpRequest;
+import com.hackathon.bespring.domain.user.presentation.dto.response.PhoneNumberResponse;
 import com.hackathon.bespring.domain.user.presentation.dto.response.TokenResponse;
 import com.hackathon.bespring.global.security.exception.UserNotFound;
 import com.hackathon.bespring.global.security.jwt.JwtTokenProvider;
+import com.hackathon.bespring.global.util.UserUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -28,6 +31,7 @@ public class UserService {
     private final JwtTokenProvider jwtTokenProvider;
     private final CategoryRepository categoryRepository;
     private final CategoryStatusRepository categoryStatusRepository;
+    private final UserUtil util;
 
     public TokenResponse signUp(SignUpRequest request) {
         if (userRepository.existsByAccountId(request.getAccountId())) {
@@ -66,6 +70,12 @@ public class UserService {
         }
 
         return getToken(user.getAccountId());
+    }
+
+    public PhoneNumberResponse getUser(GetUserRequest request) {
+        List<User> userList = userRepository.findAllUser(request.getLatitude(), request.getLongitude());
+
+        return new PhoneNumberResponse(request.getPhoneNumber());
     }
 
     private TokenResponse getToken(String accountId) {
