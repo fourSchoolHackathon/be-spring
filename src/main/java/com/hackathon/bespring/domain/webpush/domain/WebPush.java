@@ -1,13 +1,18 @@
 package com.hackathon.bespring.domain.webpush.domain;
 
 import com.hackathon.bespring.domain.user.domain.User;
+import com.hackathon.bespring.domain.webpush.presentation.dto.request.WebPushSubscribeRequest;
 import com.hackathon.bespring.global.entity.BaseTimeEntity;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToOne;
 
 @Getter
 @Entity
@@ -50,6 +55,12 @@ public class WebPush extends BaseTimeEntity {
 
     public void setP256dh(String p256dh) {
         this.p256dh = p256dh;
+    }
+
+    public void updateWebPush(WebPushSubscribeRequest dto) {
+        this.endpoint = dto.getEndpoint();
+        this.auth = dto.getAuth();
+        this.p256dh = dto.getP256dh();
     }
 
 }
