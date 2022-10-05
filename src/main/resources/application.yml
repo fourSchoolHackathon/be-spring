@@ -21,4 +21,3 @@ spring:
   jwt:
     secret-key: ${JWT_SECRET_KEY}
     access-exp: ${JWT_EXP_ACCESS}
-    refresh-exp: ${JWT_EXP_REFRESH}

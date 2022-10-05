@@ -10,8 +10,11 @@ public enum ErrorCode {
 
     EXPIRED_TOKEN(401, "Expired Token"),
     INVALID_TOKEN(401, "Invalid Token"),
+    INVALID_PASSWORD(401, "Invalid Password"),
 
     USER_NOT_FOUND(404, "User Not Found"),
+
+    USER_EXISTS(409, "User Exists"),
 
     INTERNAL_SERVER_ERROR(500, "Internal Server Error");
 

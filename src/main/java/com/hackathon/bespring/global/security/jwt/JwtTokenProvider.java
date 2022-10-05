@@ -23,17 +23,13 @@ public class JwtTokenProvider {
     private final AuthDetailsService authDetailsService;
     private final JwtProperties jwtProperties;
 
-    private String getAccessToken(String accountId) {
-        return generateToken(accountId, ACCESS_TYPE, jwtProperties.getAccessExp());
-    }
-
-    private String generateToken(String id, String type, Long exp) {
+    public String generateToken(String id) {
         return Jwts.builder()
                 .signWith(SignatureAlgorithm.HS256, jwtProperties.getSecretKey())
                 .setSubject(id)
-                .claim("type", type)
+                .claim("type", ACCESS_TYPE)
                 .setIssuedAt(new Date())
-                .setExpiration(new Date(System.currentTimeMillis() + exp * 1000))
+                .setExpiration(new Date(System.currentTimeMillis() + jwtProperties.getAccessExp() * 1000))
                 .compact();
     }
 
