@@ -33,8 +33,8 @@ public class SecurityConfig {
         http
                 .authorizeRequests()
 
-                .antMatchers(HttpMethod.POST, "user/signup").permitAll()
-                .antMatchers(HttpMethod.POST, "user/signin").permitAll()
+                .antMatchers(HttpMethod.POST, "/user/signup").permitAll()
+                .antMatchers(HttpMethod.POST, "/user/signin").permitAll()
 
                 .anyRequest().authenticated()
 

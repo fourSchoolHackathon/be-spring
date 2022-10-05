@@ -1,17 +1,20 @@
 package com.hackathon.bespring.global.security.jwt;
 
-import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.boot.context.properties.ConstructorBinding;
+import java.util.Base64;
 
 @Getter
 @ConstructorBinding
-@AllArgsConstructor(access = AccessLevel.PROTECTED)
 @ConfigurationProperties(prefix = "jwt")
 public class JwtProperties {
 
-    private String SecretKey;
-    private Long accessExp;
+    private final String SecretKey;
+    private final Long accessExp;
+
+    public JwtProperties(String secretKey, Long accessExp) {
+        this.SecretKey = Base64.getEncoder().encodeToString(secretKey.getBytes());
+        this.accessExp = accessExp;
+    }
 }

@@ -27,6 +27,7 @@ public class ErrorFilter extends OncePerRequestFilter {
             if (e.getCause() instanceof CustomException exception) {
                 setErrorResponse(exception.getErrorCode(), response);
             } else {
+                e.printStackTrace();
                 setErrorResponse(ErrorCode.INTERNAL_SERVER_ERROR, response);
             }
         }
@@ -36,7 +37,6 @@ public class ErrorFilter extends OncePerRequestFilter {
         response.setStatus(errorCode.getStatusCode());
         response.setContentType(MediaType.APPLICATION_JSON_VALUE);
         response.setCharacterEncoding(StandardCharsets.UTF_8.name());
-        response.getWriter().write(objectMapper.writeValueAsString(new ErrorResponse(errorCode))
-        );
+        response.getWriter().write(objectMapper.writeValueAsString(new ErrorResponse(errorCode)));
     }
 }
