@@ -19,6 +19,7 @@ import com.hackathon.bespring.global.util.UserUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -33,6 +34,7 @@ public class UserService {
     private final CategoryStatusRepository categoryStatusRepository;
     private final UserUtil util;
 
+    @Transactional
     public TokenResponse signUp(SignUpRequest request) {
         if (userRepository.existsByAccountId(request.getAccountId())) {
             throw UserExists.EXCEPTION;
