@@ -1,11 +1,11 @@
-package com.hackathon.bespring.global.webpush.presentation.dto.request;
+package com.hackathon.bespring.domain.webpush.presentation.dto.request;
 
 import lombok.Builder;
 import lombok.Getter;
 
 @Getter
 @Builder
-public class WebPushSendRequest {
+public class WebPushSendDto {
 
     private String title;
     private String body;

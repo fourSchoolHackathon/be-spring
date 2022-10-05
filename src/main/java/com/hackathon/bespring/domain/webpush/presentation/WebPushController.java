@@ -5,6 +5,8 @@ import com.hackathon.bespring.domain.webpush.presentation.dto.request.WebPushSub
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
+
 @RestController
 @RequestMapping("webpush")
 @RequiredArgsConstructor
@@ -13,7 +15,7 @@ public class WebPushController {
     private final WebPushService webPushService;
 
     @PostMapping
-    public void subscribe(@RequestBody WebPushSubscribeRequest dto) {
+    public void subscribe(@RequestBody @Valid WebPushSubscribeRequest dto) {
         webPushService.subscribe(dto);
     }
 

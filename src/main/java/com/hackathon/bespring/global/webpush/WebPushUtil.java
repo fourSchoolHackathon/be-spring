@@ -1,10 +1,10 @@
-package com.hackathon.bespring.global.webpush.service;
+package com.hackathon.bespring.global.webpush;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.hackathon.bespring.domain.webpush.domain.WebPush;
 import com.hackathon.bespring.global.error.CustomException;
 import com.hackathon.bespring.global.error.ErrorCode;
-import com.hackathon.bespring.global.webpush.presentation.dto.request.WebPushSendRequest;
+import com.hackathon.bespring.domain.webpush.presentation.dto.request.WebPushSendDto;
 import lombok.RequiredArgsConstructor;
 import nl.martijndwars.webpush.Notification;
 import nl.martijndwars.webpush.PushService;
@@ -19,10 +19,14 @@ import java.security.Security;
 
 @Service
 @RequiredArgsConstructor
-public class WebPushSendService {
+public class WebPushUtil {
 
     private final ObjectMapper objectMapper;
+<<<<<<< Updated upstream:src/main/java/com/hackathon/bespring/global/webpush/service/WebPushSendService.java
     private PushService pushService;
+=======
+
+>>>>>>> Stashed changes:src/main/java/com/hackathon/bespring/global/webpush/WebPushUtil.java
     @Value("${web-push.key.public}")
     private String publicKey;
     @Value("${web-push.key.private}")
@@ -34,7 +38,7 @@ public class WebPushSendService {
         pushService = new PushService(publicKey, privateKey);
     }
 
-    public void sendNotification(WebPush webPush, WebPushSendRequest dto) {
+    public void sendNotification(WebPush webPush, WebPushSendDto dto) {
         Subscription subscription = new Subscription(webPush.getEndpoint(), new Subscription.Keys(webPush.getP256dh(), webPush.getAuth()));
         try {
             pushService.send(new Notification(subscription, objectMapper.writeValueAsString(dto)));

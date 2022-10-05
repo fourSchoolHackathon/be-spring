@@ -2,11 +2,12 @@ package com.hackathon.bespring.domain.webpush.service;
 
 import com.hackathon.bespring.domain.webpush.domain.WebPush;
 import com.hackathon.bespring.domain.webpush.presentation.dto.request.WebPushSubscribeRequest;
-import com.hackathon.bespring.domain.webpush.exception.PushSubscriptionNotFound;
 import com.hackathon.bespring.domain.webpush.domain.repository.WebPushRepository;
 import com.hackathon.bespring.global.util.UserUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -16,7 +17,7 @@ public class WebPushService {
     private final WebPushRepository webpushRepository;
 
     public void subscribe(WebPushSubscribeRequest dto) {
-        WebPush webPush = webpushRepository.findByUserId(userUtil.getCurrentUser().getId()).orElseGet(
+        WebPush webPush = webpushRepository.findByUserIdAndEndpoint(userUtil.getCurrentUser().getId(), dto.getEndpoint()).orElseGet(
                 () -> WebPush.builder()
                         .endpoint(dto.getEndpoint())
                         .auth(dto.getAuth())
@@ -32,10 +33,8 @@ public class WebPushService {
     }
 
     public void unsubscribe() {
-        WebPush webPush = webpushRepository.findByUserId(userUtil.getCurrentUser().getId()).orElseThrow(
-                () -> {throw PushSubscriptionNotFound.EXCEPTION;}
-        );
-        webpushRepository.delete(webPush);
+        List<WebPush> webPushList = webpushRepository.findAllByUserId(userUtil.getCurrentUser().getId());
+        webpushRepository.deleteAll(webPushList);
     }
 
 }
