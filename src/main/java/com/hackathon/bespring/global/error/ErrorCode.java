@@ -14,6 +14,7 @@ public enum ErrorCode {
 
     USER_NOT_FOUND(404, "User Not Found"),
     PUSH_SUBSCRIPTION_NOT_FOUND(404, "Push Subscription Not Found"),
+    CATEGORY_NOT_FOUND(404, "Category Not Found"),
 
     USER_EXISTS(409, "User Exists"),
 

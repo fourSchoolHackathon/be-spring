@@ -39,5 +39,5 @@ public class SignUpRequest {
     private BigDecimal longitude;
 
     @NotNull
-    private List<Categories> categories;
+    private List<Long> categories;
 }

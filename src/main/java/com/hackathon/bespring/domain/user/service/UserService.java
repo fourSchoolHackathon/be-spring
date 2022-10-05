@@ -1,7 +1,9 @@
 package com.hackathon.bespring.domain.user.service;
 
-import com.hackathon.bespring.domain.category.domain.Category;
+import com.hackathon.bespring.domain.category.domain.CategoryStatus;
 import com.hackathon.bespring.domain.category.domain.repository.CategoryRepository;
+import com.hackathon.bespring.domain.category.domain.repository.CategoryStatusRepository;
+import com.hackathon.bespring.domain.category.exception.CategoryNotFound;
 import com.hackathon.bespring.domain.user.domain.User;
 import com.hackathon.bespring.domain.user.domain.repository.UserRepository;
 import com.hackathon.bespring.domain.user.exception.InvalidPassword;
@@ -25,6 +27,7 @@ public class UserService {
     private final PasswordEncoder passwordEncoder;
     private final JwtTokenProvider jwtTokenProvider;
     private final CategoryRepository categoryRepository;
+    private final CategoryStatusRepository categoryStatusRepository;
 
     public TokenResponse signUp(SignUpRequest request) {
         if (userRepository.existsByAccountId(request.getAccountId())) {
@@ -41,13 +44,15 @@ public class UserService {
                 .build();
         userRepository.save(user);
 
-        List<Category> categoryList = request.getCategories()
+        List<CategoryStatus> categoryList = request.getCategories()
                 .stream()
-                .map(categories -> Category.builder()
-                        .category(categories)
+                .map(categories -> categoryRepository.findById(categories)
+                        .orElseThrow(() -> CategoryNotFound.EXCEPTION))
+                .map(category -> CategoryStatus.builder()
+                        .category(category)
                         .user(user)
                         .build()).toList();
-        categoryRepository.saveAll(categoryList);
+        categoryStatusRepository.saveAll(categoryList);
 
         return getToken(user.getAccountId());
     }
