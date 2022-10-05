@@ -1,5 +1,6 @@
 package com.hackathon.bespring.global.util;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.hackathon.bespring.domain.webpush.domain.WebPush;
 import com.hackathon.bespring.domain.webpush.presentation.dto.request.WebPushSendDto;
@@ -12,11 +13,11 @@ import nl.martijndwars.webpush.Subscription;
 import org.bouncycastle.jce.provider.BouncyCastleProvider;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
-import org.springframework.stereotype.Service;
 
 import javax.annotation.PostConstruct;
 import java.security.GeneralSecurityException;
 import java.security.Security;
+import java.util.List;
 
 @RequiredArgsConstructor
 @Component
@@ -43,6 +44,19 @@ public class WebPushUtil {
         } catch (Exception e) {
             throw new CustomException(ErrorCode.INTERNAL_SERVER_ERROR);
         }
+    }
+
+    public void sendNotificationToAll(List<WebPush> webPushList, WebPushSendDto dto) throws JsonProcessingException {
+        List<Subscription> subscriptionList = webPushList.stream()
+                .map(webPush -> new Subscription(webPush.getEndpoint(), new Subscription.Keys(webPush.getP256dh(), webPush.getAuth())))
+                .toList();
+        String msg = objectMapper.writeValueAsString(dto);
+
+        subscriptionList.forEach(subscription -> {
+            try {
+                pushService.send(new Notification(subscription, msg));
+            } catch (Exception ignored) {}
+        });
     }
 
 }
