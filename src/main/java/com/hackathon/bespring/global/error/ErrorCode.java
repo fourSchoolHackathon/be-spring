@@ -13,6 +13,7 @@ public enum ErrorCode {
     INVALID_PASSWORD(401, "Invalid Password"),
 
     USER_NOT_FOUND(404, "User Not Found"),
+    PUSH_SUBSCRIPTION_NOT_FOUND(404, "Push Subscription Not Found"),
 
     USER_EXISTS(409, "User Exists"),
 
