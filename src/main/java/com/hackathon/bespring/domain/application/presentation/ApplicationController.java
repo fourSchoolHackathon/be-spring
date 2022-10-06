@@ -1,5 +1,6 @@
 package com.hackathon.bespring.domain.application.presentation;
 
+import com.hackathon.bespring.domain.application.presentation.dto.request.CallApplicationRequest;
 import com.hackathon.bespring.domain.application.presentation.dto.request.DetailsApplicationRequest;
 import com.hackathon.bespring.domain.application.presentation.dto.request.UrgentApplicationRequest;
 import com.hackathon.bespring.domain.application.presentation.dto.response.DetailsApplicationResponse;
@@ -28,5 +29,10 @@ public class ApplicationController {
     @PostMapping
     public DetailsApplicationResponse detailsApplication(@RequestBody @Valid DetailsApplicationRequest request) {
         return applicationService.detailsApplication(request);
+    }
+
+    @PostMapping("call")
+    public void callApplication(@RequestBody @Valid CallApplicationRequest request) {
+        applicationService.callApplication(request);
     }
 }

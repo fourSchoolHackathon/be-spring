@@ -1,6 +1,9 @@
 package com.hackathon.bespring.domain.application.service;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.hackathon.bespring.domain.application.domain.Application;
+import com.hackathon.bespring.domain.application.domain.repository.ApplicationRepository;
+import com.hackathon.bespring.domain.application.presentation.dto.request.CallApplicationRequest;
 import com.hackathon.bespring.domain.application.presentation.dto.request.DetailsApplicationRequest;
 import com.hackathon.bespring.domain.application.presentation.dto.request.UrgentApplicationRequest;
 import com.hackathon.bespring.domain.application.presentation.dto.response.DetailsApplicationResponse;
@@ -15,6 +18,7 @@ import com.hackathon.bespring.domain.webpush.domain.repository.WebPushRepository
 import com.hackathon.bespring.domain.webpush.presentation.dto.request.WebPushSendDto;
 import com.hackathon.bespring.global.error.CustomException;
 import com.hackathon.bespring.global.error.ErrorCode;
+import com.hackathon.bespring.global.util.UserUtil;
 import com.hackathon.bespring.global.util.WebPushUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -25,10 +29,12 @@ import java.util.List;
 @Service
 public class ApplicationService {
 
+    private final UserUtil userUtil;
     private final UserRepository userRepository;
     private final WebPushRepository webPushRepository;
     private final WebPushUtil webPushUtil;
     private final CategoryRepository categoryRepository;
+    private final ApplicationRepository applicationRepository;
 
     public PhoneNumberResponse urgentApplication(UrgentApplicationRequest request) {
         List<User> userList = userRepository.findAllUser(request.getLatitude(), request.getLongitude());
@@ -36,7 +42,7 @@ public class ApplicationService {
         WebPushSendDto webPushSendDto = WebPushSendDto.builder()
                 .title("빠른 도움이 필요한 사람이 발생하였습니다")
                 .body("알림을 클릭하여 바로 전화걸기")
-                .link("tel:" + request.getPhoneNumber())
+                .link("http://localhost:3000/call?phoneNumber=" + request.getPhoneNumber())
                 .build();
         webPush(userList, webPushSendDto);
 
@@ -57,7 +63,7 @@ public class ApplicationService {
 
         WebPushSendDto webPushSendDto = WebPushSendDto.builder()
                 .title("도움이 필요한 사람이 발생하였습니다")
-                .body("알림을 클릭하여 도와주기")
+                .body("알림을 클릭하여 자세히 보기")
                 .link("http://localhost:3000/accept?phoneNumber=" + request.getPhoneNumber())
                 .build();
         webPush(userList, webPushSendDto);
@@ -71,6 +77,16 @@ public class ApplicationService {
                 .longitude(request.getLongitude())
                 .latitude(request.getLatitude())
                 .build();
+    }
+
+    public void callApplication(CallApplicationRequest request) {
+        User user = userUtil.getCurrentUser();
+        Application application = Application.builder()
+                .phoneNumber(request.getPhoneNumber())
+                .user(user)
+                .build();
+
+        applicationRepository.save(application);
     }
 
     private void webPush(List<User> userList, WebPushSendDto webPushSendDto) {

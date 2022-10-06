@@ -1,6 +1,7 @@
 package com.hackathon.bespring.domain.application.domain;
 
 import com.hackathon.bespring.domain.user.domain.User;
+import com.hackathon.bespring.global.entity.BaseTimeEntity;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -23,7 +24,7 @@ import javax.persistence.Table;
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 @Table(name = "tbl_application")
 @Entity
-public class Application {
+public class Application extends BaseTimeEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
