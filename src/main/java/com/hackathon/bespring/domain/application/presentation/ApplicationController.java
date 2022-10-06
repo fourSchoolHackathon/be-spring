@@ -30,12 +30,12 @@ public class ApplicationController {
         return applicationService.detailsApplication(request);
     }
 
-    @PostMapping("call")
+    @PostMapping("/call")
     public void callApplication(@RequestBody @Valid CallApplicationRequest request) {
         applicationService.callApplication(request);
     }
 
-    @GetMapping("history")
+    @GetMapping("/history")
     public List<ApplicationHistoryResponse> callHistoryListApplication() {
         return applicationService.callHistoryListApplication();
     }

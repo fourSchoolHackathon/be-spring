@@ -21,6 +21,8 @@ import com.hackathon.bespring.global.error.CustomException;
 import com.hackathon.bespring.global.error.ErrorCode;
 import com.hackathon.bespring.global.util.UserUtil;
 import com.hackathon.bespring.global.util.WebPushUtil;
+import com.hackathon.bespring.infrastructure.feign.MatchServer;
+import com.hackathon.bespring.infrastructure.feign.dto.request.MatchRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -36,6 +38,7 @@ public class ApplicationService {
     private final WebPushUtil webPushUtil;
     private final CategoryRepository categoryRepository;
     private final ApplicationRepository applicationRepository;
+    private final MatchServer matchServer;
 
     public PhoneNumberResponse urgentApplication(UrgentApplicationRequest request) {
         List<User> userList = userRepository.findAllUser(request.getLatitude(), request.getLongitude());
@@ -88,6 +91,11 @@ public class ApplicationService {
                 .build();
 
         applicationRepository.save(application);
+
+        MatchRequest matchRequest = new MatchRequest(
+                user.getName(), user.getLongitude(), user.getLatitude(), request.getPhoneNumber()
+        );
+        matchServer.match(matchRequest);
     }
 
     public List<ApplicationHistoryResponse> callHistoryListApplication() {

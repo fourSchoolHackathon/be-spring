@@ -46,6 +46,12 @@ dependencies {
 
     // crypto
     implementation 'org.bouncycastle:bcprov-jdk15on:1.70'
+
+    // Swagger
+    implementation 'org.springdoc:springdoc-openapi-ui:1.6.11'
+
+    // Open Feign
+    implementation 'org.springframework.cloud:spring-cloud-starter-openfeign:3.1.4'
 }
 
 tasks.named('test') {
