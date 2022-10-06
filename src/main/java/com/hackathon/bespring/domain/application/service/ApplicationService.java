@@ -3,6 +3,7 @@ package com.hackathon.bespring.domain.application.service;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.hackathon.bespring.domain.application.presentation.dto.request.DetailsApplicationRequest;
 import com.hackathon.bespring.domain.application.presentation.dto.request.UrgentApplicationRequest;
+import com.hackathon.bespring.domain.application.presentation.dto.response.DetailsApplicationResponse;
 import com.hackathon.bespring.domain.application.presentation.dto.response.PhoneNumberResponse;
 import com.hackathon.bespring.domain.category.domain.Category;
 import com.hackathon.bespring.domain.category.domain.repository.CategoryRepository;
@@ -19,7 +20,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 @Service
@@ -43,7 +43,7 @@ public class ApplicationService {
         return new PhoneNumberResponse(request.getPhoneNumber());
     }
 
-    public void detailsApplication(DetailsApplicationRequest request) {
+    public DetailsApplicationResponse detailsApplication(DetailsApplicationRequest request) {
         List<Category> categoryList = request.getCategoryList()
                 .stream()
                 .map(categories -> categoryRepository.findByCategory(categories)
@@ -61,6 +61,16 @@ public class ApplicationService {
                 .link("http://localhost:3000/accept?phoneNumber=" + request.getPhoneNumber())
                 .build();
         webPush(userList, webPushSendDto);
+
+        return DetailsApplicationResponse.builder()
+                .phoneNumber(request.getPhoneNumber())
+                .sex(request.getSex())
+                .categoryList(request.getCategoryList())
+                .startAt(request.getStartAt())
+                .endAt(request.getEndAt())
+                .longitude(request.getLongitude())
+                .latitude(request.getLatitude())
+                .build();
     }
 
     private void webPush(List<User> userList, WebPushSendDto webPushSendDto) {

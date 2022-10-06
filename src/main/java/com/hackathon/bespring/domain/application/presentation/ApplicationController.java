@@ -2,6 +2,7 @@ package com.hackathon.bespring.domain.application.presentation;
 
 import com.hackathon.bespring.domain.application.presentation.dto.request.DetailsApplicationRequest;
 import com.hackathon.bespring.domain.application.presentation.dto.request.UrgentApplicationRequest;
+import com.hackathon.bespring.domain.application.presentation.dto.response.DetailsApplicationResponse;
 import com.hackathon.bespring.domain.application.presentation.dto.response.PhoneNumberResponse;
 import com.hackathon.bespring.domain.application.service.ApplicationService;
 import lombok.RequiredArgsConstructor;
@@ -25,7 +26,7 @@ public class ApplicationController {
     }
 
     @PostMapping
-    public void detailsApplication(@RequestBody @Valid DetailsApplicationRequest request) {
-        applicationService.detailsApplication(request);
+    public DetailsApplicationResponse detailsApplication(@RequestBody @Valid DetailsApplicationRequest request) {
+        return applicationService.detailsApplication(request);
     }
 }
