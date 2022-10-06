@@ -14,12 +14,11 @@ import com.hackathon.bespring.domain.user.exception.UserExists;
 import com.hackathon.bespring.domain.user.presentation.dto.request.LocationRequest;
 import com.hackathon.bespring.domain.user.presentation.dto.request.SignInRequest;
 import com.hackathon.bespring.domain.user.presentation.dto.request.SignUpRequest;
+import com.hackathon.bespring.domain.user.presentation.dto.response.ApplicationHistoryElement;
 import com.hackathon.bespring.domain.user.presentation.dto.response.TokenResponse;
-import com.hackathon.bespring.domain.webpush.domain.repository.WebPushRepository;
 import com.hackathon.bespring.global.security.exception.UserNotFound;
 import com.hackathon.bespring.global.security.jwt.JwtTokenProvider;
 import com.hackathon.bespring.global.util.UserUtil;
-import com.hackathon.bespring.global.util.WebPushUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -85,13 +84,16 @@ public class UserService {
         user.updateLocation(request.getLatitude(), request.getLongitude());
     }
 
-    public List<ApplicationHistoryResponse> callHistoryListApplication() {
+    public ApplicationHistoryResponse callHistoryListApplication() {
         User user = userUtil.getCurrentUser();
         List<Application> applicationList = applicationRepository.findAllByUserOrderByCreatedAtDesc(user);
 
-        return applicationList
-                .stream().map(application -> new ApplicationHistoryResponse(application.getPhoneNumber(), application.getCreatedAt()))
+        List<ApplicationHistoryElement> elements = applicationList
+                .stream()
+                .map(application -> new ApplicationHistoryElement(application.getPhoneNumber(), application.getCreatedAt()))
                 .toList();
+
+        return new ApplicationHistoryResponse(user.getName(), elements);
     }
 
     private TokenResponse getToken(String accountId) {
