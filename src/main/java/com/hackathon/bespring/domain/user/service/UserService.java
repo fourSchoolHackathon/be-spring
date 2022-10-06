@@ -21,14 +21,12 @@ import com.hackathon.bespring.global.error.CustomException;
 import com.hackathon.bespring.global.error.ErrorCode;
 import com.hackathon.bespring.global.security.exception.UserNotFound;
 import com.hackathon.bespring.global.security.jwt.JwtTokenProvider;
-import com.hackathon.bespring.global.util.UserUtil;
 import com.hackathon.bespring.global.util.WebPushUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.Collections;
 import java.util.List;
 
 @RequiredArgsConstructor
@@ -61,7 +59,7 @@ public class UserService {
 
         List<CategoryStatus> categoryList = request.getCategories()
                 .stream()
-                .map(categories -> categoryRepository.findById(categories)
+                .map(categories -> categoryRepository.findByCategory(categories)
                         .orElseThrow(() -> CategoryNotFound.EXCEPTION))
                 .map(category -> CategoryStatus.builder()
                         .category(category)
