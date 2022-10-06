@@ -33,7 +33,12 @@ public class ApplicationService {
     public PhoneNumberResponse urgentApplication(UrgentApplicationRequest request) {
         List<User> userList = userRepository.findAllUser(request.getLatitude(), request.getLongitude());
 
-        webPush(userList, request.getPhoneNumber());
+        WebPushSendDto webPushSendDto = WebPushSendDto.builder()
+                .title("빠른 도움이 필요한 사람이 발생하였습니다")
+                .body("알림을 클릭하여 바로 전화걸기")
+                .link("tel:" + request.getPhoneNumber())
+                .build();
+        webPush(userList, webPushSendDto);
 
         return new PhoneNumberResponse(request.getPhoneNumber());
     }
@@ -50,17 +55,16 @@ public class ApplicationService {
                 categoryList.get(0).getId(), categoryList.get(1).getId()
         );
 
-        webPush(userList, request.getPhoneNumber());
-    }
-
-    private void webPush(List<User> userList, String phoneNumber) {
-        List<WebPush> webPushList = webPushRepository.findAllByUserIn(userList);
         WebPushSendDto webPushSendDto = WebPushSendDto.builder()
                 .title("도움이 필요한 사람이 발생하였습니다")
                 .body("알림을 클릭하여 도와주기")
-                .link("http://localhost:3000/accept?phoneNumber=" + phoneNumber)
+                .link("http://localhost:3000/accept?phoneNumber=" + request.getPhoneNumber())
                 .build();
+        webPush(userList, webPushSendDto);
+    }
 
+    private void webPush(List<User> userList, WebPushSendDto webPushSendDto) {
+        List<WebPush> webPushList = webPushRepository.findAllByUserIn(userList);
         try {
             webPushUtil.sendNotificationToAll(webPushList, webPushSendDto);
         } catch (JsonProcessingException e) {
