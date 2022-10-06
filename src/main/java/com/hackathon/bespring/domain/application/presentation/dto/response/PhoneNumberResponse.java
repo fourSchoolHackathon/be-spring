@@ -1,4 +1,4 @@
-package com.hackathon.bespring.domain.user.presentation.dto.response;
+package com.hackathon.bespring.domain.application.presentation.dto.response;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

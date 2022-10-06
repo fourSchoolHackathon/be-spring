@@ -1,6 +1,5 @@
 package com.hackathon.bespring.domain.user.service;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.hackathon.bespring.domain.category.domain.CategoryStatus;
 import com.hackathon.bespring.domain.category.domain.repository.CategoryRepository;
 import com.hackathon.bespring.domain.category.domain.repository.CategoryStatusRepository;
@@ -9,17 +8,11 @@ import com.hackathon.bespring.domain.user.domain.User;
 import com.hackathon.bespring.domain.user.domain.repository.UserRepository;
 import com.hackathon.bespring.domain.user.exception.InvalidPassword;
 import com.hackathon.bespring.domain.user.exception.UserExists;
-import com.hackathon.bespring.domain.user.presentation.dto.request.GetUserRequest;
 import com.hackathon.bespring.domain.user.presentation.dto.request.LocationRequest;
 import com.hackathon.bespring.domain.user.presentation.dto.request.SignInRequest;
 import com.hackathon.bespring.domain.user.presentation.dto.request.SignUpRequest;
-import com.hackathon.bespring.domain.user.presentation.dto.response.PhoneNumberResponse;
 import com.hackathon.bespring.domain.user.presentation.dto.response.TokenResponse;
-import com.hackathon.bespring.domain.webpush.domain.WebPush;
 import com.hackathon.bespring.domain.webpush.domain.repository.WebPushRepository;
-import com.hackathon.bespring.domain.webpush.presentation.dto.request.WebPushSendDto;
-import com.hackathon.bespring.global.error.CustomException;
-import com.hackathon.bespring.global.error.ErrorCode;
 import com.hackathon.bespring.global.security.exception.UserNotFound;
 import com.hackathon.bespring.global.security.jwt.JwtTokenProvider;
 import com.hackathon.bespring.global.util.UserUtil;
@@ -82,23 +75,6 @@ public class UserService {
         }
 
         return getToken(user.getAccountId());
-    }
-
-    public PhoneNumberResponse getUser(GetUserRequest request) {
-        List<User> userList = userRepository.findAllUser(request.getLatitude(), request.getLongitude());
-        List<WebPush> webPushList = webPushRepository.findAllByUserIn(userList);
-        WebPushSendDto webPushSendDto = WebPushSendDto.builder()
-                .title("도움이 필요한 사람이 발생하였습니다")
-                .body("알림을 클릭하여 도와주기")
-                .link("http://localhost:3000/accept?phoneNumber=" + request.getPhoneNumber())
-                .build();
-
-        try {
-            webPushUtil.sendNotificationToAll(webPushList, webPushSendDto);
-        } catch (JsonProcessingException e) {
-            throw new CustomException(ErrorCode.INTERNAL_SERVER_ERROR);
-        }
-        return new PhoneNumberResponse(request.getPhoneNumber());
     }
 
     @Transactional

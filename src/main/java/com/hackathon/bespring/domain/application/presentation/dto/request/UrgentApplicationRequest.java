@@ -1,4 +1,4 @@
-package com.hackathon.bespring.domain.user.presentation.dto.request;
+package com.hackathon.bespring.domain.application.presentation.dto.request;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -10,7 +10,7 @@ import java.math.BigDecimal;
 
 @Getter
 @NoArgsConstructor
-public class GetUserRequest {
+public class UrgentApplicationRequest {
 
     @Size(min = 11, max = 11)
     @NotBlank

@@ -1,10 +1,8 @@
 package com.hackathon.bespring.domain.user.presentation;
 
-import com.hackathon.bespring.domain.user.presentation.dto.request.GetUserRequest;
 import com.hackathon.bespring.domain.user.presentation.dto.request.LocationRequest;
 import com.hackathon.bespring.domain.user.presentation.dto.request.SignInRequest;
 import com.hackathon.bespring.domain.user.presentation.dto.request.SignUpRequest;
-import com.hackathon.bespring.domain.user.presentation.dto.response.PhoneNumberResponse;
 import com.hackathon.bespring.domain.user.presentation.dto.response.TokenResponse;
 import com.hackathon.bespring.domain.user.service.UserService;
 import lombok.RequiredArgsConstructor;
@@ -34,11 +32,6 @@ public class UserController {
     @PostMapping("/signin")
     public TokenResponse signIn(@RequestBody @Valid SignInRequest request) {
         return userService.signIn(request);
-    }
-
-    @PostMapping
-    public PhoneNumberResponse getUser(@RequestBody @Valid GetUserRequest request) {
-        return userService.getUser(request);
     }
 
     @PatchMapping

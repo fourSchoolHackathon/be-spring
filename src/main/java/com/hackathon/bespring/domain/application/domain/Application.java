@@ -1,4 +1,4 @@
-package com.hackathon.bespring.domain.category.domain;
+package com.hackathon.bespring.domain.application.domain;
 
 import com.hackathon.bespring.domain.user.domain.User;
 import lombok.AccessLevel;
@@ -7,10 +7,12 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.IdClass;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
@@ -19,19 +21,18 @@ import javax.persistence.Table;
 @Builder
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
-@Table(name = "tbl_category_status")
-@IdClass(CategoryStatusId.class)
+@Table(name = "tbl_application")
 @Entity
-public class CategoryStatus {
+public class Application {
 
     @Id
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(nullable = false)
-    private Category category;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
-    @Id
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(nullable = false)
     private User user;
 
+    @Column(columnDefinition = "CHAR(11)")
+    private String phoneNumber;
 }
