@@ -6,7 +6,6 @@ import com.hackathon.bespring.domain.application.domain.repository.ApplicationRe
 import com.hackathon.bespring.domain.application.presentation.dto.request.CallApplicationRequest;
 import com.hackathon.bespring.domain.application.presentation.dto.request.DetailsApplicationRequest;
 import com.hackathon.bespring.domain.application.presentation.dto.request.UrgentApplicationRequest;
-import com.hackathon.bespring.domain.application.presentation.dto.response.ApplicationHistoryResponse;
 import com.hackathon.bespring.domain.application.presentation.dto.response.DetailsApplicationResponse;
 import com.hackathon.bespring.domain.application.presentation.dto.response.PhoneNumberResponse;
 import com.hackathon.bespring.domain.category.domain.Category;
@@ -96,15 +95,6 @@ public class ApplicationService {
                 user.getName(), user.getLongitude(), user.getLatitude(), request.getPhoneNumber()
         );
         matchServer.match(matchRequest);
-    }
-
-    public List<ApplicationHistoryResponse> callHistoryListApplication() {
-        User user = userUtil.getCurrentUser();
-        List<Application> applicationList = applicationRepository.findAllByUserOrderByCreatedAtDesc(user);
-
-        return applicationList
-                .stream().map(application -> new ApplicationHistoryResponse(application.getPhoneNumber(), application.getCreatedAt()))
-                .toList();
     }
 
     private void webPush(List<User> userList, WebPushSendDto webPushSendDto) {

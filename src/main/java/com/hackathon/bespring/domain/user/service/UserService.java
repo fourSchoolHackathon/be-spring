@@ -1,5 +1,8 @@
 package com.hackathon.bespring.domain.user.service;
 
+import com.hackathon.bespring.domain.application.domain.Application;
+import com.hackathon.bespring.domain.application.domain.repository.ApplicationRepository;
+import com.hackathon.bespring.domain.application.presentation.dto.response.ApplicationHistoryResponse;
 import com.hackathon.bespring.domain.category.domain.CategoryStatus;
 import com.hackathon.bespring.domain.category.domain.repository.CategoryRepository;
 import com.hackathon.bespring.domain.category.domain.repository.CategoryStatusRepository;
@@ -33,8 +36,7 @@ public class UserService {
     private final JwtTokenProvider jwtTokenProvider;
     private final CategoryRepository categoryRepository;
     private final CategoryStatusRepository categoryStatusRepository;
-    private final WebPushRepository webPushRepository;
-    private final WebPushUtil webPushUtil;
+    private final ApplicationRepository applicationRepository;
     private final UserUtil userUtil;
 
     @Transactional
@@ -81,6 +83,15 @@ public class UserService {
     public void updateLocation(LocationRequest request) {
         User user = userUtil.getCurrentUser();
         user.updateLocation(request.getLatitude(), request.getLongitude());
+    }
+
+    public List<ApplicationHistoryResponse> callHistoryListApplication() {
+        User user = userUtil.getCurrentUser();
+        List<Application> applicationList = applicationRepository.findAllByUserOrderByCreatedAtDesc(user);
+
+        return applicationList
+                .stream().map(application -> new ApplicationHistoryResponse(application.getPhoneNumber(), application.getCreatedAt()))
+                .toList();
     }
 
     private TokenResponse getToken(String accountId) {
