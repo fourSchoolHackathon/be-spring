@@ -10,6 +10,7 @@ import com.hackathon.bespring.domain.user.domain.repository.UserRepository;
 import com.hackathon.bespring.domain.user.exception.InvalidPassword;
 import com.hackathon.bespring.domain.user.exception.UserExists;
 import com.hackathon.bespring.domain.user.presentation.dto.request.GetUserRequest;
+import com.hackathon.bespring.domain.user.presentation.dto.request.LocationRequest;
 import com.hackathon.bespring.domain.user.presentation.dto.request.SignInRequest;
 import com.hackathon.bespring.domain.user.presentation.dto.request.SignUpRequest;
 import com.hackathon.bespring.domain.user.presentation.dto.response.PhoneNumberResponse;
@@ -21,6 +22,7 @@ import com.hackathon.bespring.global.error.CustomException;
 import com.hackathon.bespring.global.error.ErrorCode;
 import com.hackathon.bespring.global.security.exception.UserNotFound;
 import com.hackathon.bespring.global.security.jwt.JwtTokenProvider;
+import com.hackathon.bespring.global.util.UserUtil;
 import com.hackathon.bespring.global.util.WebPushUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -40,6 +42,7 @@ public class UserService {
     private final CategoryStatusRepository categoryStatusRepository;
     private final WebPushRepository webPushRepository;
     private final WebPushUtil webPushUtil;
+    private final UserUtil userUtil;
 
     @Transactional
     public TokenResponse signUp(SignUpRequest request) {
@@ -96,6 +99,12 @@ public class UserService {
             throw new CustomException(ErrorCode.INTERNAL_SERVER_ERROR);
         }
         return new PhoneNumberResponse(request.getPhoneNumber());
+    }
+
+    @Transactional
+    public void updateLocation(LocationRequest request) {
+        User user = userUtil.getCurrentUser();
+        user.updateLocation(request.getLatitude(), request.getLongitude());
     }
 
     private TokenResponse getToken(String accountId) {

@@ -1,6 +1,7 @@
 package com.hackathon.bespring.domain.user.presentation;
 
 import com.hackathon.bespring.domain.user.presentation.dto.request.GetUserRequest;
+import com.hackathon.bespring.domain.user.presentation.dto.request.LocationRequest;
 import com.hackathon.bespring.domain.user.presentation.dto.request.SignInRequest;
 import com.hackathon.bespring.domain.user.presentation.dto.request.SignUpRequest;
 import com.hackathon.bespring.domain.user.presentation.dto.response.PhoneNumberResponse;
@@ -8,6 +9,7 @@ import com.hackathon.bespring.domain.user.presentation.dto.response.TokenRespons
 import com.hackathon.bespring.domain.user.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -37,6 +39,11 @@ public class UserController {
     @PostMapping
     public PhoneNumberResponse getUser(@RequestBody @Valid GetUserRequest request) {
         return userService.getUser(request);
+    }
+
+    @PatchMapping
+    public void updateLocation(@RequestBody @Valid LocationRequest request) {
+        userService.updateLocation(request);
     }
 
 }

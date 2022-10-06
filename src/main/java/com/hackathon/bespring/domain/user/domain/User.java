@@ -54,4 +54,9 @@ public class User {
     @NotNull
     @Digits(integer = 3, fraction = 8)
     private BigDecimal longitude;
+
+    public void updateLocation(BigDecimal latitude, BigDecimal longitude) {
+        this.latitude = latitude;
+        this.longitude = longitude;
+    }
 }
